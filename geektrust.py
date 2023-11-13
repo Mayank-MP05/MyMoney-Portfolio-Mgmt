@@ -1,4 +1,5 @@
 from sys import argv
+from src.utils.say_my_name import sayMyName
 
 def main():
     
@@ -12,6 +13,7 @@ def main():
     Lines = f.readlines()
     //Add your code here to process the input commands
     """
+    sayMyName()
     
 if __name__ == "__main__":
     main()
