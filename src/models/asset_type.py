@@ -1,3 +1,5 @@
+from src.utils import constants
+
 class AssetType:
     def __init__(self, name):
         self.name = name
@@ -5,7 +7,6 @@ class AssetType:
         self.current_balance = 0.0
         self.sip_amt = 0.0
         self.month_to_closing_balance_map = {}
-        pass
     
     def allocate_initial_capital(self, amt, allocation_percentage):
         self.current_balance = amt
@@ -28,13 +29,10 @@ class AssetType:
     
     def get_rebalance_amt(self, total_balance):
         # Check if minimum 6 months data is available
-        if(len(self.month_to_closing_balance_map) < 6):
+        if(len(self.month_to_closing_balance_map) < constants.MIN_MONTHS_FOR_RE_BALANCING):
             print("CANNOT_REBALANCE")
             return None
         else:
             updated_balance = total_balance * self.initial_allocation_percentage
             self.current_balance = updated_balance
             return updated_balance
-        
-    def monthly_change(self, change, month_enum):
-        pass
