@@ -70,4 +70,18 @@ class MainHandler:
         pass
     
     def rebalance_command():
+        # Get the current balance of each fund
+        equity_balance = self._equity.get_current_balance()
+        debt_balance = self._debt.get_current_balance()
+        gold_balance = self._gold.get_current_balance()
+        
+        # Calculate total fund size
+        total_balance = equity_balance + debt_balance + gold_balance
+        
+        equity_rebalance_amt = self._equity.get_rebalance_amt(total_balance)
+        if(equity_rebalance_amt == None) return
+        debt_rebalance_amt = self._debt.get_rebalance_amt(total_balance)
+        gold_rebalance_amt = self._gold.get_rebalance_amt(total_balance)
+        
+        print(f'{int(equity_rebalance_amt)} {int(debt_rebalance_amt)} ${int(gold_rebalance_amt)}')
         pass
