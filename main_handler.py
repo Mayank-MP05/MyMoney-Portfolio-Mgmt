@@ -39,8 +39,11 @@ class MainHandler:
         elif (command_enum == 'REBALANCE'):
             self.rebalance_command()
             
-    def allocate_command(equity_amt, debt_amt, gold_amt):
+    def allocate_command(self, equity_amt, debt_amt, gold_amt):
+        # Calculate the overall amt 
         overall_amt = equity_amt + debt_amt + gold_amt
+        
+        # Calculate the allocation percentage based on that
         equity_initial_allocation =  equity_amt/overall_amt
         debt_initial_allocation =  debt_amt/overall_amt
         gold_initial_allocation =  gold_amt/overall_amt
@@ -49,13 +52,21 @@ class MainHandler:
         self._debt.allocate_initial_capital(debt_amt, debt_initial_allocation)
         self._gold.allocate_initial_capital(gold_amt, gold_initial_allocation)
 
-    def sip_command(equity_amt, debt_amt, gold_amt):
+    def sip_command(self, equity_amt, debt_amt, gold_amt):
+        # Set sip amount for the Asset types
+        self._equity.set_sip_amt(equity_amt)
+        self._debt.set_sip_amt(debt_amt)
+        self._gold.set_sip_amt(gold_amt)
         pass
     
-    def change_command(equity_change, debt_change, gold_change, month_enum):
+    def change_command(self, equity_change, debt_change, gold_change, month_enum):
         pass
     
-    def balance_command(month_enum):
+    def balance_command(self, month_enum):
+        # Calculate the allocation percentage based on that
+        equity_balance = self._equity.get_balance_by_month(month_enum)
+        debt_balance = self._debt.get_balance_by_month(month_enum)
+        gold_balance = self._gold.get_balance_by_month(month_enum)
         pass
     
     def rebalance_command():
