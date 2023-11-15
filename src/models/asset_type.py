@@ -1,4 +1,4 @@
-from src.utils import constants
+from src.configs import constants
 
 class AssetType:
     def __init__(self, name):
