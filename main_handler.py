@@ -1,42 +1,54 @@
 import logging
 logger = logging.getLogger(__name__)
+from src.models.asset_type import AssetType
 
 class MainHandler:
     def __init__(self):
+        self._equity = AssetType("equity")
+        self._debt = AssetType("debt")
+        self._gold = AssetType("gold")
+        
         pass
     
     def process_one_line(self, input_line):
         token_list = input_line.split(" ")
         command_enum = token_list[0]
         logger.debug(token_list)
-        process_token_list(command_enum, token_list)
+        self.process_token_list(command_enum, token_list)
         
     def process_token_list(self, command_enum, token_list):
         if (command_enum == 'ALLOCATE'):
             equity_amt = float(token_list[1])
             debt_amt = float(token_list[2])
             gold_amt = float(token_list[3])
-            allocate_command(equity_amt, debt_amt, gold_amt)
+            self.allocate_command(equity_amt, debt_amt, gold_amt)
         elif (command_enum == 'SIP'): 
             equity_amt = float(token_list[1])
             debt_amt = float(token_list[2])
             gold_amt = float(token_list[3])
-            sip_command(equity_amt, debt_amt, gold_amt)
+            self.sip_command(equity_amt, debt_amt, gold_amt)
         elif (command_enum == 'CHANGE'):
             equity_change = float(token_list[1].replace("%",""))
             debt_change = float(token_list[2].replace("%",""))
             gold_change = float(token_list[3].replace("%",""))
             month_enum = token_list[4]
-            change_command(equity_change, debt_change, gold_change, month_enum)
+            self.change_command(equity_change, debt_change, gold_change, month_enum)
         elif (command_enum == 'BALANCE'):
             month_enum = token_list[1] 
-            balance_command(month_enum)
+            self.balance_command(month_enum)
         elif (command_enum == 'REBALANCE'):
-            rebalance_command()
+            self.rebalance_command()
             
     def allocate_command(equity_amt, debt_amt, gold_amt):
-        pass
-    
+        overall_amt = equity_amt + debt_amt + gold_amt
+        equity_initial_allocation =  equity_amt/overall_amt
+        debt_initial_allocation =  debt_amt/overall_amt
+        gold_initial_allocation =  gold_amt/overall_amt
+        
+        self._equity.allocate_initial_capital(equity_amt, equity_initial_allocation)
+        self._debt.allocate_initial_capital(debt_amt, debt_initial_allocation)
+        self._gold.allocate_initial_capital(gold_amt, gold_initial_allocation)
+
     def sip_command(equity_amt, debt_amt, gold_amt):
         pass
     
