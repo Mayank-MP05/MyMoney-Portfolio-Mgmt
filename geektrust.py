@@ -1,9 +1,13 @@
 from sys import argv
-from . import io_manager
+from io_manager import IOManager
+
+def lineProcessorFn(singleLine):
+    pass
 
 def main():
-    print("main of geek-trust")
-    ioObj = io_manager.IOManager()
+    ioObj = IOManager()
+    ioObj.read_file(argv[1],lineProcessorFn)
+    pass
     
 if __name__ == "__main__":
     main()

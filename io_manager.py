@@ -1,15 +1,20 @@
 from sys import argv
-from src.utils.say_my_name import sayMyName
 from src.utils.logger import setup_logger
+import logging
 
 class IOManager():
-    logger = setup_logger()
-    logger.info("Hi info msg")
-    logger.debug("Hi debug msg")
-    
     def __init__(self):
-        print("IOManager started")
+        setup_logger()
     
-    
-# if __name__ == "__main__":
-#     main()
+    def read_file(self,file_path, lineProcessorFn):
+        try:
+            with open(file_path, 'r') as file:
+                content = file.read()
+                logging.info("File content:")
+                logging.info(content)
+                lineProcessorFn(content)
+        except FileNotFoundError:
+            logging.error(f"Error: File '{file_path}' not found.")
+        except Exception as e:
+            logging.error(f"Error: {e}")
+        
