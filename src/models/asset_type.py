@@ -17,13 +17,16 @@ class AssetType:
     def get_balance_by_month(self, month_enum):
         return self.month_to_closing_balance_map[month_enum]
     
+    def set_balance_by_month(self, month_enum, balance):
+        self.month_to_closing_balance_map[month_enum] = balance
+    
     def get_current_balance(self):
         return self.current_balance
     
     def set_current_balance(self, current_balance):
         self.current_balance = current_balance
     
-    def get_rebalance_amt(total_balance):
+    def get_rebalance_amt(self, total_balance):
         # Check if minimum 6 months data is available
         if(len(self.month_to_closing_balance_map) < 6):
             print("CANNOT_REBALANCE")
