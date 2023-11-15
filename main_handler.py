@@ -60,6 +60,38 @@ class MainHandler:
         pass
     
     def change_command(self, equity_change, debt_change, gold_change, month_enum):
+        equity_sip_amt = 0
+        debt_sip_amt = 0
+        gold_sip_amt = 0
+        
+        # Month is january then dont add sip
+        if(month_enum == 'JANUARY'):
+            equity_sip_amt = 0    
+            debt_sip_amt = 0
+            gold_sip_amt = 0
+        
+        # If month is not jan, 
+        # add SIP amt first, 
+        # then make changes update the balance
+        # update the mapping
+        else:
+            # Get the current balance of each fund
+            equity_sip_amt = self._equity.sip_amt
+            debt_sip_amt = self._debt.sip_amt
+            gold_sip_amt = self._gold.sip_amt
+            
+        equity_balance = self._equity.get_current_balance()
+        debt_balance = self._debt.get_current_balance()
+        gold_balance = self._gold.get_current_balance()
+
+        updated_equity_balance = (equity_balance + equity_sip_amt) * (1 + (equity_change/100))
+        updated_debt_balance = (debt_balance + debt_sip_amt) * (1 + (debt_change/100))
+        updated_gold_balance = (gold_balance + gold_sip_amt) * (1 + (gold_change/100))
+        logger.debug(f'change {month_enum} {int(updated_equity_balance)} {int(updated_debt_balance)} {int(updated_gold_balance)}')
+
+        self._equity.set_current_balance(updated_equity_balance)
+        self._debt.set_current_balance(updated_debt_balance)
+        self._gold.set_current_balance(updated_gold_balance)
         pass
     
     def balance_command(self, month_enum):
@@ -67,6 +99,8 @@ class MainHandler:
         equity_balance = self._equity.get_balance_by_month(month_enum)
         debt_balance = self._debt.get_balance_by_month(month_enum)
         gold_balance = self._gold.get_balance_by_month(month_enum)
+        
+        print(f'{int(equity_balance)} {int(debt_balance)} ${int(gold_balance)}')
         pass
     
     def rebalance_command():
@@ -79,9 +113,11 @@ class MainHandler:
         total_balance = equity_balance + debt_balance + gold_balance
         
         equity_rebalance_amt = self._equity.get_rebalance_amt(total_balance)
-        if(equity_rebalance_amt == None) return
+        if(equity_rebalance_amt == None):
+            return
+        
         debt_rebalance_amt = self._debt.get_rebalance_amt(total_balance)
         gold_rebalance_amt = self._gold.get_rebalance_amt(total_balance)
         
         print(f'{int(equity_rebalance_amt)} {int(debt_rebalance_amt)} ${int(gold_rebalance_amt)}')
-        pass
+        

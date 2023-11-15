@@ -14,7 +14,6 @@ class IOManager():
             with open(file_path, 'r') as file:
                 for input_line in file:
                     input_line = input_line.replace("\n", '')
-                    logger.info(input_line)
                     self._main_handler.process_one_line(input_line)
         except FileNotFoundError:
             logger.error(f"Error: File '{file_path}' not found.")

@@ -20,6 +20,9 @@ class AssetType:
     def get_current_balance(self):
         return self.current_balance
     
+    def set_current_balance(self, current_balance):
+        self.current_balance = current_balance
+    
     def get_rebalance_amt(total_balance):
         # Check if minimum 6 months data is available
         if(len(self.month_to_closing_balance_map) < 6):
