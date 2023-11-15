@@ -1,20 +1,23 @@
 from sys import argv
+from main_handler import MainHandler
 from src.utils.logger import setup_logger
 import logging
+logger = logging.getLogger(__name__)
 
 class IOManager():
     def __init__(self):
+        self._main_handler = MainHandler()
         setup_logger()
-    
-    def read_file(self,file_path, lineProcessorFn):
+  
+    def read_file(self,file_path):
         try:
             with open(file_path, 'r') as file:
-                content = file.read()
-                logging.info("File content:")
-                logging.info(content)
-                lineProcessorFn(content)
+                for input_line in file:
+                    input_line = input_line.replace("\n", '')
+                    logger.info(input_line)
+                    self._main_handler.process_one_line(input_line)
         except FileNotFoundError:
-            logging.error(f"Error: File '{file_path}' not found.")
+            logger.error(f"Error: File '{file_path}' not found.")
         except Exception as e:
-            logging.error(f"Error: {e}")
-        
+            logger.error(f"Error: {e}")
+            
