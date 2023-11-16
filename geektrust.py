@@ -1,5 +1,5 @@
 from sys import argv
-from io_manager import IOManager
+from src.controller.io_manager import IOManager
 
 def main():
     ioObj = IOManager()
