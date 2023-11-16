@@ -21,15 +21,10 @@ class Portfolio:
         # Calculate the overall amt 
         overall_amt = equity_amt + debt_amt + gold_amt
         
-        # Calculate the allocation percentage based on that
-        equity_initial_allocation =  equity_amt/overall_amt
-        debt_initial_allocation =  debt_amt/overall_amt
-        gold_initial_allocation =  gold_amt/overall_amt
-        
-        # Set the amount and initial allocation percentage
-        self._equity.allocate_initial_capital(equity_amt, equity_initial_allocation)
-        self._debt.allocate_initial_capital(debt_amt, debt_initial_allocation)
-        self._gold.allocate_initial_capital(gold_amt, gold_initial_allocation)
+        # Set the amount and initial allocation percentage will be calculated
+        self._equity.allocate_initial_capital(equity_amt, overall_amt)
+        self._debt.allocate_initial_capital(debt_amt, overall_amt)
+        self._gold.allocate_initial_capital(gold_amt, overall_amt)
 
     def sip_command(self, equity_amt, debt_amt, gold_amt):
         # Set sip amount for the Asset types

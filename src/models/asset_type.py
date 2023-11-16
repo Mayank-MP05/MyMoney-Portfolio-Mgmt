@@ -10,8 +10,10 @@ class AssetType:
         self.month_to_closing_balance_map = {}
         self.last_re_balance_amt = None
     
-    def allocate_initial_capital(self, amt, allocation_percentage):
+    def allocate_initial_capital(self, amt, overall_amt):
         self.current_balance = amt
+        # Calculate the allocation percentage based on that
+        allocation_percentage = amt / overall_amt
         self.initial_allocation_percentage = allocation_percentage
         
     def set_sip_amt(self, sip_amt):
