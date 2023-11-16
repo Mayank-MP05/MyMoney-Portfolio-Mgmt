@@ -1,5 +1,6 @@
-import logging
 from src.models.asset_type import AssetType
+from src.configs.constants import MonthEnums
+import logging
 logger = logging.getLogger(__name__)
 
 class Portfolio:
@@ -34,7 +35,7 @@ class Portfolio:
         gold_sip_amt = 0
         
         # Month is january then dont add sip
-        if(month_enum == 'JANUARY'):
+        if(month_enum == MonthEnums.JANUARY):
             equity_sip_amt = 0    
             debt_sip_amt = 0
             gold_sip_amt = 0
@@ -66,7 +67,7 @@ class Portfolio:
         self._debt.set_balance_by_month(month_enum, updated_debt_balance)
         self._gold.set_balance_by_month(month_enum, updated_gold_balance)
         
-        if month_enum == 'JUNE' or month_enum == 'DECEMBER':
+        if month_enum == MonthEnums.JUNE or month_enum == MonthEnums.DECEMBER:
             logger.debug(f"Trigger re_balance -> {month_enum}")
             self.execute_re_balance_command()
         

@@ -10,3 +10,9 @@ REBALANCE_COMMAND = "REBALANCE"
 
 # AssetType enums
 MIN_MONTHS_FOR_RE_BALANCING = 6
+
+# MonthEnums dictionary
+class MonthEnums:
+    JANUARY = 'JANUARY'
+    JUNE = 'JUNE'
+    DECEMBER = 'DECEMBER'
