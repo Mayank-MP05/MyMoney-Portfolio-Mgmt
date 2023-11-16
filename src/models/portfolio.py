@@ -3,12 +3,20 @@ from src.configs.constants import MonthEnums
 import logging
 logger = logging.getLogger(__name__)
 
+
 class Portfolio:
+    """Portfolio Class
+    - Class will be used to represent one portfolio
+    - It can have mulitple asset classes
+    - All centralized commands like rebalance, get and print balance will be here
+    """
+    
     def __init__(self):
+        # Initialization of the asset classes in a portfolio
         self._equity = AssetType("equity")
         self._debt = AssetType("debt")
         self._gold = AssetType("gold")
-        
+      
     def allocate_command(self, equity_amt, debt_amt, gold_amt):
         # Calculate the overall amt 
         overall_amt = equity_amt + debt_amt + gold_amt
@@ -18,6 +26,7 @@ class Portfolio:
         debt_initial_allocation =  debt_amt/overall_amt
         gold_initial_allocation =  gold_amt/overall_amt
         
+        # Set the amount and initial allocation percentage
         self._equity.allocate_initial_capital(equity_amt, equity_initial_allocation)
         self._debt.allocate_initial_capital(debt_amt, debt_initial_allocation)
         self._gold.allocate_initial_capital(gold_amt, gold_initial_allocation)
@@ -59,20 +68,19 @@ class Portfolio:
         updated_gold_balance = int((gold_balance + gold_sip_amt) * (1 + (gold_change/100)))
         logger.debug(f'change -> {month_enum} {int(updated_equity_balance)} {int(updated_debt_balance)} {int(updated_gold_balance)}')
 
-        self._equity.set_current_balance(updated_equity_balance)
-        self._debt.set_current_balance(updated_debt_balance)
-        self._gold.set_current_balance(updated_gold_balance)
+        self._equity.set_current_balance(updated_equity_balance,month_enum)
+        self._debt.set_current_balance(updated_debt_balance,month_enum)
+        self._gold.set_current_balance(updated_gold_balance,month_enum)
         
-        self._equity.set_balance_by_month(month_enum, updated_equity_balance)
-        self._debt.set_balance_by_month(month_enum, updated_debt_balance)
-        self._gold.set_balance_by_month(month_enum, updated_gold_balance)
-        
-        if month_enum == MonthEnums.JUNE or month_enum == MonthEnums.DECEMBER:
+        # For June and December, we have to rebalance the portfolio
+        if month_enum in [MonthEnums.JUNE ,MonthEnums.DECEMBER]:
             logger.debug(f"Trigger re_balance -> {month_enum}")
             self.execute_re_balance_command()
         
-    
+
     def balance_command(self, month_enum):
+        """prints the balance of different asset classes in the portfolio
+        """
         # Calculate the allocation percentage based on that
         equity_balance = self._equity.get_balance_by_month(month_enum)
         debt_balance = self._debt.get_balance_by_month(month_enum)

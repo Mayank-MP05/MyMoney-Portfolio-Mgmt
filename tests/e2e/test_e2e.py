@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 class TestYourProgram(unittest.TestCase):
     def test_end_to_end(self):
         for i in range(1,6):
-            print(f"TC #{i} >> -----------------------------")
+            logger.debug(f"TC #{i} >> -----------------------------")
             input_file = f'sample_input/input{i}.txt'
             actual_output_file = f'generated_output/output{i}.txt'
             expected_output_file = f'sample_output/output{i}.txt'
@@ -28,11 +28,11 @@ class TestYourProgram(unittest.TestCase):
                 for lineIdx in range(0,len(lines_file1)):
                     line1 = lines_file1[lineIdx].replace("\n","")
                     line2 = lines_file2[lineIdx].replace("\n","")
-                    print(f"TC #{i} Actual")
-                    print(line1)
+                    logger.debug(f"TC #{i} Actual")
+                    logger.debug(line1)
                     
-                    print(f"TC #{i} Expected")
-                    print(line2)
+                    logger.debug(f"TC #{i} Expected")
+                    logger.debug(line2)
                     self.assertEqual(line1,line2)
             
 if __name__ == '__main__':
