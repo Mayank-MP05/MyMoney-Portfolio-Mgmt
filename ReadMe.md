@@ -1,34 +1,48 @@
-# Pre-requisites
-* Python 3.8/3.9
-* Pip
+## Money Management Problem
 
-# How to run the code
+Your program should take as input:
 
-We have provided scripts to execute the code. 
+1. The money allocated in equity, debt and gold funds.
+2. Monthly SIP payments.
+3. Monthly change rate (loss or growth) for each type of fund.
+The output should be
 
-Use `run.sh` if you are Linux/Unix/macOS Operating systems and `run.bat` if you are on Windows.  Both the files run the commands silently and prints only output from the input file `sample_input/input1.txt`. You are supposed to add the input commands in the file from the appropriate problem statement. 
+1. Balanced amount of each fund for a certain month.
+2. Rebalanced amount of each month if applicable.
 
-Internally both the scripts run the following commands 
+### Input Commands
+There are 5 input commands defined to separate out the actions. Your input format will start with either of these commands i.e ALLOCATE, SIP, CHANGE, BALANCE, REBALANCE
 
- * `pip install -r requirements.txt` - This will install the dependencies mentioned in the requirement.file
- * `python -m geektrust sample_input/input1.txt` - This will run the solution passing in the sample input file as the command line argument
 
-If you are providing a solution without using the build file, we want you to name your Main file as geektrust.py. This is the file that will contain your main method.
+#### ALLOCATE
+The ALLOCATE command receives the initial investment amounts for each fund.
+Format - ALLOCATE AMOUNT_EQUITY AMOUNT_DEBT AMOUNT_GOLD
+Example- ALLOCATE 6000 3000 1000 means that an amount of 6000, 3000 and 1000 is initially invested in equity, debt and gold fund respectively.
 
- We expect your program to take the location to the text file as parameter. Input needs to be read from a text file, and output should be printed to the console. The text file will contain only commands in the format prescribed by the respective problem.
+#### SIP
+The SIP command receives the investment amount on a monthly basis for each fund.
+Format - SIP AMOUNT_EQUITY AMOUNT_DEBT AMOUNT_GOLD
+Example - SIP 2000 1000 500 means a monthly payment of 2000, 1000 and 500 is done against each of equity, debt and gold funds respectivelty.
 
- # Running the code for multiple test cases
+#### CHANGE
+The CHANGE command receives the monthly rate of change (growth or loss) for each fund type. A negative value represents a loss.
+Format - CHANGE AMOUNT_EQUITY AMOUNT_DEBT AMOUNT_GOLD MONTH Example - CHANGE 8.00% -3.00% 7.00% APRIL means in the month of April equity received a growth of 8%, debt has taken a loss by 3% and gold received a growth of 7%.
 
- Please fill `input1.txt` and `input2.txt` with the input commands and use those files in `run.bat` or `run.sh`. Replace `python -m geektrust sample_input/input1.txt` with `python -m geektrust sample_input/input2.txt` to run the test case from the second file. 
+#### BALANCE
+The BALANCE command receives a month name.
+Format - BALANCE MONTH
+Example - BALANCE APRIL means - print the balance for each fund as on April month.
 
- # How to execute the unit tests
+#### REBALANCE
+The REBALANCE command receives no additional inputs.
+Input Format - REBALANCE
+Example - REBALANCE - Rebalance happens compulsorily after 6 months in June and December.
+The REBALANCE command shows the last rebalanced amount for each fund at the time of
+rebalancing. If 6 months data is not available then print CANNOT_REBALANCE.
+Output format - EQUITY DEBT GOLD
+Example - 10593 7898 2273
 
- `python -m unittest discover` will execute the unit test cases.
-
- The unit test coverage is found by the command :
-`coverage run -m unittest discover`
-
-# Help
-
-You can refer our help documents [here](https://help.geektrust.com)
-You can read build instructions [here](https://github.com/geektrust/coding-problem-artefacts/tree/master/Python)
+### Assumptions
+1. Balances are always floored to the nearest integers.
+2. The rebalancing happens on 6th (June) and 12th (December) month.
+3. The allocation always happens from January, and SIP from February.
