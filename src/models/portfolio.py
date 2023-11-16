@@ -67,7 +67,7 @@ class Portfolio:
         self._gold.set_balance_by_month(month_enum, updated_gold_balance)
         
         if month_enum == 'JUNE' or month_enum == 'DECEMBER':
-            logger.debug(f"Trigger rebalance -> {month_enum}")
+            logger.debug(f"Trigger re_balance -> {month_enum}")
             self.execute_re_balance_command()
         
     
@@ -88,21 +88,21 @@ class Portfolio:
         # Calculate total fund size
         total_balance = equity_balance + debt_balance + gold_balance
         
-        equity_rebalance_amt = self._equity.execute_re_balance_command(total_balance)
-        if(equity_rebalance_amt == None):
+        equity_re_balance_amt = self._equity.execute_re_balance_command(total_balance)
+        if(equity_re_balance_amt == None):
             return
         
-        debt_rebalance_amt = self._debt.execute_re_balance_command(total_balance)
-        gold_rebalance_amt = self._gold.execute_re_balance_command(total_balance)
+        debt_re_balance_amt = self._debt.execute_re_balance_command(total_balance)
+        gold_re_balance_amt = self._gold.execute_re_balance_command(total_balance)
         
-        logger.debug(f"rebalance -> {equity_rebalance_amt} {debt_rebalance_amt} {gold_rebalance_amt}")
+        logger.debug(f"re_balance -> {equity_re_balance_amt} {debt_re_balance_amt} {gold_re_balance_amt}")
 
-    def print_last_rebalance_amt_command(self):
-        equity_rebalance_amt = self._equity.get_last_re_balance_amt()
-        if(equity_rebalance_amt == None):
+    def print_last_re_balance_amt_command(self):
+        equity_re_balance_amt = self._equity.get_last_re_balance_amt()
+        if(equity_re_balance_amt == None):
             print("CANNOT_REBALANCE")
             return
-        debt_rebalance_amt = self._debt.get_last_re_balance_amt()
-        gold_rebalance_amt = self._gold.get_last_re_balance_amt()
-        print(f'{int(equity_rebalance_amt)} {int(debt_rebalance_amt)} {int(gold_rebalance_amt)}')
+        debt_re_balance_amt = self._debt.get_last_re_balance_amt()
+        gold_re_balance_amt = self._gold.get_last_re_balance_amt()
+        print(f'{int(equity_re_balance_amt)} {int(debt_re_balance_amt)} {int(gold_re_balance_amt)}')
         

@@ -37,5 +37,5 @@ class MainHandler:
             month_enum = token_list[1] 
             self._portfolio.balance_command(month_enum)
         elif (command_enum == constants.REBALANCE_COMMAND):
-            self._portfolio.print_last_rebalance_amt_command()
+            self._portfolio.print_last_re_balance_amt_command()
             
