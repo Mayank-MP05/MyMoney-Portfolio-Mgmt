@@ -1,9 +1,11 @@
-
+# AssetType Class Constants
 BALANCE_TO_SET = 10
 OVERALL_BALANCE = 100
-
 MONTHLY_CHANGE = 5.00
 MONTH_ENUM = 'FEBRUARY'
-
 SIP_AMT = 10
 
+# Portfolio Class Constants
+GOLD_AMT = 10
+DEBT_AMT = 30
+EQUITY_AMT = 60
