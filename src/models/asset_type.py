@@ -7,6 +7,7 @@ class AssetType:
         self.current_balance = 0.0
         self.sip_amt = 0.0
         self.month_to_closing_balance_map = {}
+        self.last_re_balance_amt = None
     
     def allocate_initial_capital(self, amt, allocation_percentage):
         self.current_balance = amt
@@ -27,12 +28,16 @@ class AssetType:
     def set_current_balance(self, current_balance):
         self.current_balance = current_balance
     
-    def get_rebalance_amt(self, total_balance):
+    def execute_re_balance_command(self, total_balance):
         # Check if minimum 6 months data is available
         if(len(self.month_to_closing_balance_map) < constants.MIN_MONTHS_FOR_RE_BALANCING):
-            print("CANNOT_REBALANCE")
+            self.last_re_balance_amt = None
             return None
         else:
-            updated_balance = total_balance * self.initial_allocation_percentage
+            updated_balance = int(total_balance * self.initial_allocation_percentage)
             self.current_balance = updated_balance
+            self.last_re_balance_amt = updated_balance
             return updated_balance
+
+    def get_last_re_balance_amt(self):
+        return self.last_re_balance_amt

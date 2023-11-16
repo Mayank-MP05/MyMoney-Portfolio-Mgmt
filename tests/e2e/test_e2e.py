@@ -1,12 +1,13 @@
 import unittest
 import subprocess
-import filecmp
 import os
+import logging
+logger = logging.getLogger(__name__)
 
 class TestYourProgram(unittest.TestCase):
-
     def test_end_to_end(self):
         for i in range(1,6):
+            print(f"TC #{i} >> -----------------------------")
             input_file = f'sample_input/input{i}.txt'
             actual_output_file = f'generated_output/output{i}.txt'
             expected_output_file = f'sample_output/output{i}.txt'
@@ -33,17 +34,6 @@ class TestYourProgram(unittest.TestCase):
                     print(f"TC #{i} Expected")
                     print(line2)
                     self.assertEqual(line1,line2)
-
-    def _remove_last_line(self, file_path):
-        with open(file_path, 'r') as file:
-            lines = file.readlines()
-
-        # Remove the last line
-        if not lines:
-            lines.pop()
-
-        with open(file_path, 'w') as file:
-            file.writelines(lines)
             
 if __name__ == '__main__':
     unittest.main()
