@@ -1,3 +1,4 @@
+from src.configs.constants import MonthEnums
 from src.configs import constants
 
 class AssetType:
@@ -39,3 +40,17 @@ class AssetType:
 
     def get_last_re_balance_amt(self):
         return self.last_re_balance_amt
+    
+    def add_sip_and_monthly_change(self, monthly_change, month_enum):
+        current_balance = self.get_current_balance()
+        if(month_enum == MonthEnums.JANUARY):
+            # Month is january then dont add sip
+            sip_amt = 0
+        else:
+            # If month is not jan, add SIP amt first, 
+            sip_amt = self.sip_amt
+       
+        # then make changes update the balance
+        updated_balance = int((self.current_balance + sip_amt) * (1 + (monthly_change/100)))
+        self.set_current_balance(updated_balance,month_enum)
+        pass

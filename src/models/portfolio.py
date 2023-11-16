@@ -39,38 +39,9 @@ class Portfolio:
         pass
     
     def change_command(self, equity_change, debt_change, gold_change, month_enum):
-        equity_sip_amt = 0
-        debt_sip_amt = 0
-        gold_sip_amt = 0
-        
-        # Month is january then dont add sip
-        if(month_enum == MonthEnums.JANUARY):
-            equity_sip_amt = 0    
-            debt_sip_amt = 0
-            gold_sip_amt = 0
-        
-        # If month is not jan, 
-        # add SIP amt first, 
-        # then make changes update the balance
-        # update the mapping
-        else:
-            # Get the current balance of each fund
-            equity_sip_amt = self._equity.sip_amt
-            debt_sip_amt = self._debt.sip_amt
-            gold_sip_amt = self._gold.sip_amt
-            
-        equity_balance = self._equity.get_current_balance()
-        debt_balance = self._debt.get_current_balance()
-        gold_balance = self._gold.get_current_balance()
-
-        updated_equity_balance = int((equity_balance + equity_sip_amt) * (1 + (equity_change/100)))
-        updated_debt_balance = int((debt_balance + debt_sip_amt) * (1 + (debt_change/100)))
-        updated_gold_balance = int((gold_balance + gold_sip_amt) * (1 + (gold_change/100)))
-        logger.debug(f'change -> {month_enum} {int(updated_equity_balance)} {int(updated_debt_balance)} {int(updated_gold_balance)}')
-
-        self._equity.set_current_balance(updated_equity_balance,month_enum)
-        self._debt.set_current_balance(updated_debt_balance,month_enum)
-        self._gold.set_current_balance(updated_gold_balance,month_enum)
+        self._equity.add_sip_and_monthly_change(equity_change, month_enum)
+        self._debt.add_sip_and_monthly_change(debt_change, month_enum)
+        self._gold.add_sip_and_monthly_change(gold_change, month_enum)
         
         # For June and December, we have to rebalance the portfolio
         if month_enum in [MonthEnums.JUNE ,MonthEnums.DECEMBER]:
